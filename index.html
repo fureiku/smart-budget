@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Aplicación educativa para registrar ingresos y gastos con HTML, CSS y JavaScript."
+  />
+  <title>SmartBudget - Control de finanzas personales</title>
+  <link rel="stylesheet" href="css/estilos.css" />
+</head>
+<body>
+  <header class="encabezado-app">
+    <h1>💰SmartBudget</h1>
+    <p>Control de Finanzas Personales</p>
+  </header>
+
+  <nav class="pestanas" aria-label="Secciones principales">
+    <button class="boton-pestana activo" data-tab="ingresos" type="button">Ingresos</button>
+    <button class="boton-pestana" data-tab="gastos" type="button">Gastos</button>
+    <button class="boton-pestana" data-tab="historial" type="button">Historial</button>
+  </nav>
+
+  <main class="contenido-app">
+    <section id="ingresos" class="panel-pestana activo">
+      <div class="titulo-seccion">
+        <div>
+          <h2>Registrar un ingreso</h2>
+        </div>
+      </div>
+
+      <form id="form-ingreso" class="formulario">
+        <div class="fila-formulario">
+          <label for="ingreso-descripcion">Descripción</label>
+          <input name="descripcion" type="text" id="ingreso-descripcion" placeholder="Ejemplo: Sueldo" required />
+        </div>
+        <div class="fila-formulario">
+          <label for="ingreso-monto">Monto</label>
+          <input name="monto" type="number" id="ingreso-monto" placeholder="0" min="1" step="1" required />
+        </div>
+        <div class="fila-formulario">
+          <label for="ingreso-fecha">Fecha</label>
+          <input name="fecha" type="date" id="ingreso-fecha" required />
+        </div>
+        <button type="submit" class="boton boton-primario">Agregar ingreso</button>
+      </form>
+
+      <div class="encabezado-lista">
+        <h3>Últimos ingresos</h3>
+      </div>
+      <p id="sin-ingresos" class="estado-vacio">Todavía no registraste ningún ingreso.</p>
+      <ul id="lista-ingresos" class="lista-movimientos"></ul>
+    </section>
+
+    <section id="gastos" class="panel-pestana">
+      <div class="titulo-seccion">
+        <div>
+          <h2>Registrar un gasto</h2>
+        </div>
+      </div>
+
+      <form id="form-gasto" class="formulario">
+        <div class="fila-formulario">
+          <label for="gasto-descripcion">Descripción</label>
+          <input name="descripcion" type="text" id="gasto-descripcion" placeholder="Ejemplo: Supermercado" required />
+        </div>
+        <div class="fila-formulario">
+          <label for="gasto-monto">Monto</label>
+          <input name="monto" type="number" id="gasto-monto" placeholder="0" min="1" step="1" required />
+        </div>
+        <div class="fila-formulario">
+          <label for="gasto-fecha">Fecha</label>
+          <input name="fecha" type="date" id="gasto-fecha" required />
+        </div>
+        <button type="submit" class="boton boton-primario">Agregar gasto</button>
+      </form>
+
+      <div class="encabezado-lista">
+        <h3>Últimos gastos</h3>
+      </div>
+      <p id="sin-gastos" class="estado-vacio">Todavía no registraste ningún gasto.</p>
+      <ul id="lista-gastos" class="lista-movimientos"></ul>
+    </section>
+
+    <section id="historial" class="panel-pestana">
+      <div class="titulo-seccion">
+        <div>
+          <h2>Explorar el historial</h2>
+        </div>
+      </div>
+
+      <p id="sin-historial" class="estado-vacio">Todavía no registraste ningún movimiento.</p>
+      <div class="contenedor-tabla">
+        <table class="tabla-movimientos">
+          <thead>
+            <tr>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Descripción</th>
+              <th>Monto</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-historial"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie-app">
+    <p>SmartBudget — Grupo 2</p>
+  </footer>
+
+  <template id="plantilla-movimiento">
+    <li>
+      <div class="info-movimiento">
+        <strong class="descripcion-movimiento"></strong>
+        <small>
+          <span class="fecha-movimiento"></span>
+        </small>
+      </div>
+      <span class="monto-movimiento"></span>
+      <button class="boton-eliminar" type="button">Eliminar</button>
+    </li>
+  </template>
+
+  <template id="plantilla-fila-historial">
+    <tr>
+      <td class="fecha-movimiento"></td>
+      <td class="tipo-movimiento"></td>
+      <td class="descripcion-movimiento"></td>
+      <td class="monto-movimiento"></td>
+      <td><button class="boton-eliminar" type="button">Eliminar</button></td>
+    </tr>
+  </template>
+
+  <script src="js/almacenamiento.js"></script>
+  <script src="js/movimientos.js"></script>
+  <script src="js/interfaz.js"></script>
+  <script src="js/principal.js"></script>
+</body>
+</html>
