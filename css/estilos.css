@@ -193,6 +193,25 @@ h2 {
 .monto-movimiento.ingreso { color: var(--color-ingreso); font-weight: 600; }
 .monto-movimiento.gasto { color: var(--color-gasto); font-weight: 600; }
 
+/* ----- Pagos Recurrentes  y Suscripciones----- */
+.lista-recurrentes li {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+}
+
+.estado-recurrente {
+  width: fit-content;
+  font-size: 0.75rem;
+  padding: 0.1rem 0.5rem;
+  border-radius: var(--radio);
+  margin-top: 0.2rem;
+  background: var(--color-bg);
+}
+
+.acciones-recurrente {
+  display: flex;
+  gap: 0.5rem;
+}
+
 /* ----- Historial ----- */
 .contenedor-tabla {
   overflow-x: auto;
@@ -237,5 +256,9 @@ h2 {
   .lista-movimientos .boton-eliminar {
     grid-column: 1 / -1;
     justify-self: start;
+  }
+
+  .acciones-recurrente {
+    grid-column: 1 / -1;
   }
 }
