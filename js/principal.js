@@ -6,6 +6,10 @@ document.addEventListener("DOMContentLoaded", function () {
   document.querySelectorAll(".boton-pestana").forEach(function (boton) {
     boton.addEventListener("click", function () {
       mostrarPestana(boton.dataset.tab);
+      // Renderizar contenido dinámico al cambiar de pestaña
+      const tab = boton.dataset.tab;
+      if (tab === "regla") renderizarRegla();
+      console.log("Renderizando regla");
     });
   });
 
@@ -32,7 +36,8 @@ document.addEventListener("DOMContentLoaded", function () {
       "gasto",
       formularioGasto.elements.descripcion.value,
       formularioGasto.elements.monto.value,
-      formularioGasto.elements.fecha.value
+      formularioGasto.elements.fecha.value,
+      formularioGasto.elements.categoria.value    // Se agrega categoria para relga 50/30/20
     );
 
     formularioGasto.reset();
@@ -55,4 +60,5 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   refrescarPantalla();
+  renderizarRegla();
 });

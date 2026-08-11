@@ -1,12 +1,13 @@
 let movimientos = cargarMovimientos();
 
-function agregarMovimiento(tipo, descripcion, monto, fecha) {
+function agregarMovimiento(tipo, descripcion, monto, fecha, categoria) {
   const nuevoMovimiento = {
     id: Date.now(),
     tipo: tipo,
     descripcion: descripcion.trim(),
     monto: Number(monto),
-    fecha: fecha
+    fecha: fecha,
+    categoria: categoria    // Se agrega categoria para relga 50/30/20
   };
 
   movimientos.push(nuevoMovimiento);
