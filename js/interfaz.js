@@ -58,6 +58,79 @@ function renderizarLista(tipo, idLista, idMensajeVacio) {
   });
 }
 
+// Renderiza la lista de activos o la de pasivos, según el tipo que le pasemos.
+function renderizarListaPatrimonio(tipo, idLista, idMensajeVacio) {
+  const lista = document.getElementById(idLista);
+  const mensajeVacio = document.getElementById(idMensajeVacio);
+  const plantilla = document.getElementById("plantilla-movimiento");
+  const registros = obtenerRegistros(tipo);
+
+  lista.innerHTML = "";
+  mensajeVacio.hidden = registros.length > 0;
+
+  registros.forEach(function (registro) {
+    // Se copia la plantilla definida en index.html.
+    const copia = plantilla.content.cloneNode(true);
+    // Los activos suman y los pasivos restan.
+    const signo = registro.tipo === "activo" ? "+" : "-";
+
+    copia.querySelector(".descripcion-movimiento").textContent =
+      registro.descripcion;
+    copia.querySelector(".fecha-movimiento").textContent = formatearFecha(
+      registro.fecha,
+    );
+
+    const campoMonto = copia.querySelector(".monto-movimiento");
+    campoMonto.textContent = signo + formatearMoneda(registro.monto);
+    campoMonto.classList.add(registro.tipo);
+
+    copia
+      .querySelector(".boton-eliminar")
+      .addEventListener("click", function () {
+        eliminarRegistro(registro.id);
+        refrescarPantalla();
+      });
+
+    lista.appendChild(copia);
+  });
+}
+
+// Patrimonio neto = todo lo que tenemos menos todo lo que debemos.
+function renderizarPatrimonio() {
+  const activos = obtenerRegistros("activo");
+  const pasivos = obtenerRegistros("pasivo");
+
+  // Con reduce() recorremos la lista y vamos sumando los montos.
+  const totalActivos = activos.reduce(function (suma, registro) {
+    return suma + registro.monto;
+  }, 0);
+
+  const totalPasivos = pasivos.reduce(function (suma, registro) {
+    return suma + registro.monto;
+  }, 0);
+
+  const neto = totalActivos - totalPasivos;
+
+  // Mostramos los totales en el DOM
+  document.getElementById("patrimonio-activos").textContent =
+    formatearMoneda(totalActivos);
+  document.getElementById("patrimonio-pasivos").textContent =
+    formatearMoneda(totalPasivos);
+
+  const elementoNeto = document.getElementById("patrimonio-neto");
+  elementoNeto.textContent = formatearMoneda(neto);
+
+  // Si debemos más de lo que tenemos, el neto se muestra en rojo.
+  elementoNeto.style.color =
+    neto < 0 ? "var(--color-gasto)" : "var(--color-ingreso)";
+
+  // Si no hay nada cargado, mostramos el mensaje vacío en lugar del resumen.
+  const sinDatos = activos.length === 0 && pasivos.length === 0;
+  document.getElementById("resumen-patrimonio").hidden = sinDatos;
+  document.getElementById("sin-datos-patrimonio").hidden = !sinDatos;
+}
+
+
 function renderizarHistorial() {
   const movimientosHistorial = obtenerMovimientos();
   const tabla = document.getElementById("tabla-historial");
@@ -226,5 +299,8 @@ function refrescarPantalla() {
   renderizarLista("gasto", "lista-gastos", "sin-gastos");
   renderizarRecurrentes();
   renderizarHistorial();
+  renderizarListaPatrimonio("activo", "lista-activos", "sin-activos");
+  renderizarListaPatrimonio("pasivo", "lista-pasivos", "sin-pasivos");
+  renderizarPatrimonio();
   renderizarRegla();
 }

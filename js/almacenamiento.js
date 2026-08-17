@@ -53,3 +53,30 @@ function guardarRecurrentes(recurrentes) {
     console.error("No se pudieron guardar los gastos recurrentes.", error);
   }
 }
+// Otra clave para no mezclar los activos y pasivos con los movimientos
+const CLAVE_PATRIMONIO = "smartbudget_patrimonio";
+
+function cargarPatrimonio() {
+  try {
+    const textoGuardado = localStorage.getItem(CLAVE_PATRIMONIO);
+
+    if (textoGuardado === null) {
+      return [];
+    }
+
+    const datos = JSON.parse(textoGuardado);
+    return Array.isArray(datos) ? datos : [];
+  } catch (error) {
+    console.error("No se pudieron cargar los activos y pasivos.", error);
+    return [];
+  }
+}
+
+function guardarPatrimonio(registros) {
+  try {
+    const textoParaGuardar = JSON.stringify(registros);
+    localStorage.setItem(CLAVE_PATRIMONIO, textoParaGuardar);
+  } catch (error) {
+    console.error("No se pudieron guardar los activos y pasivos.", error);
+  }
+}

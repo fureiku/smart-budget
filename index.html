@@ -21,8 +21,10 @@
     <button class="boton-pestana" data-tab="gastos" type="button">Gastos</button>
     <button class="boton-pestana" data-tab="recurrentes" type="button">Recurrentes</button>
     <button class="boton-pestana" data-tab="historial" type="button">Historial</button>
-    <button class="boton-pestana" data-tab="activos" type="button">Activos</button>
     <button class="boton-pestana" data-tab="regla" type ="button">Regla 50/30/20</button>
+    <button class="boton-pestana" data-tab="activos" type="button">Activos</button>
+    <button class="boton-pestana" data-tab="pasivos" type="button">Pasivos</button>
+    <button class="boton-pestana" data-tab="patrimonio" type="button">Patrimonio</button>
   </nav>
 
   <main class="contenido-app">
@@ -188,6 +190,65 @@
       <p id="sin-activos" class="estado-vacio">Todavía no registraste ningún activo.</p>
       <ul id="lista-activos" class="lista-movimientos"></ul>
     </section>
+        <!-- Pasivos: deudas y obligaciones -->
+    <section id="pasivos" class="panel-pestana">
+      <div class="titulo-seccion">
+        <div>
+          <h2>Registrar un pasivo</h2>
+        </div>
+      </div>
+
+      <form id="form-pasivo" class="formulario">
+        <div class="fila-formulario">
+          <label for="pasivo-descripcion">Descripción</label>
+          <input name="descripcion" type="text" id="pasivo-descripcion" placeholder="Ejemplo: Préstamo bancario" required />
+        </div>
+        <div class="fila-formulario">
+          <label for="pasivo-monto">Monto</label>
+          <input name="monto" type="number" id="pasivo-monto" placeholder="0" min="1" step="1" required />
+        </div>
+        <div class="fila-formulario">
+          <label for="pasivo-fecha">Fecha</label>
+          <input name="fecha" type="date" id="pasivo-fecha" required />
+        </div>
+        <button type="submit" class="boton boton-primario">Agregar pasivo</button>
+      </form>
+
+      <div class="encabezado-lista">
+        <h3>Últimos pasivos</h3>
+      </div>
+      <p id="sin-pasivos" class="estado-vacio">Todavía no registraste ningún pasivo.</p>
+      <ul id="lista-pasivos" class="lista-movimientos"></ul>
+    </section>
+
+    <!-- Patrimonio neto = activos - pasivos -->
+    <section id="patrimonio" class="panel-pestana">
+      <div class="titulo-seccion">
+        <h2>Patrimonio neto</h2>
+        <p>Lo que tenés menos lo que debés.</p>
+      </div>
+
+      <div id="resumen-patrimonio">
+        <div class="tarjeta-regla">
+          <h3>Patrimonio neto</h3>
+          <p id="patrimonio-neto" class="monto-grande">₲0</p>
+        </div>
+
+        <div class="grilla-regla">
+          <div class="tarjeta-regla activos">
+            <h3>Total activos</h3>
+            <p class="monto-regla" id="patrimonio-activos">₲0</p>
+          </div>
+
+          <div class="tarjeta-regla pasivos">
+            <h3>Total pasivos</h3>
+            <p class="monto-regla" id="patrimonio-pasivos">₲0</p>
+          </div>
+        </div>
+      </div>
+
+      <p id="sin-datos-patrimonio" class="estado-vacio">Todavía no registraste activos ni pasivos.</p>
+    </section>
 
     <!--  Regla 50/20/30 -->
     <section id="regla" class="panel-pestana">
@@ -285,6 +346,7 @@
   <script src="js/almacenamiento.js"></script>
   <script src="js/movimientos.js"></script>
   <script src="js/recurrentes.js"></script>
+  <script src="js/patrimonio.js"></script>
   <script src="js/interfaz.js"></script>
   <script src="js/principal.js"></script>
 </body>

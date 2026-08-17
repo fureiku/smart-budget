@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const formularioIngreso = document.getElementById("form-ingreso");
   const formularioGasto = document.getElementById("form-gasto");
   const formularioRecurrente = document.getElementById("form-recurrente");
+  const formularioActivo = document.getElementById("form-activo");
+  const formularioPasivo = document.getElementById("form-pasivo");
 
   document.querySelectorAll(".boton-pestana").forEach(function (boton) {
     boton.addEventListener("click", function () {
@@ -54,8 +56,39 @@ document.addEventListener("DOMContentLoaded", function () {
       formularioRecurrente.elements.frecuencia.value,
       formularioRecurrente.elements.fecha.value
     );
-
+    
     formularioRecurrente.reset();
+    refrescarPantalla();
+
+  });
+
+    formularioActivo.addEventListener("submit", function (evento) {
+    // Evita que el formulario recargue la página.
+    evento.preventDefault();
+
+    agregarRegistro(
+      "activo",
+      formularioActivo.elements.descripcion.value,
+      formularioActivo.elements.monto.value,
+      formularioActivo.elements.fecha.value
+    );
+
+    formularioActivo.reset();
+    refrescarPantalla();
+  });
+
+  formularioPasivo.addEventListener("submit", function (evento) {
+    // Evita que el formulario recargue la página.
+    evento.preventDefault();
+
+    agregarRegistro(
+      "pasivo",
+      formularioPasivo.elements.descripcion.value,
+      formularioPasivo.elements.monto.value,
+      formularioPasivo.elements.fecha.value
+    );
+
+    formularioPasivo.reset();
     refrescarPantalla();
   });
 

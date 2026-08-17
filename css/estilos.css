@@ -195,6 +195,8 @@ h2 {
 
 .monto-movimiento.ingreso { color: var(--color-ingreso); font-weight: 600; }
 .monto-movimiento.gasto { color: var(--color-gasto); font-weight: 600; }
+.monto-movimiento.activo { color: var(--color-ingreso); font-weight: 600; }
+.monto-movimiento.pasivo { color: var(--color-gasto); font-weight: 600; }
 
 /* ----- Pagos Recurrentes  y Suscripciones----- */
 .lista-recurrentes li {
@@ -281,6 +283,8 @@ h2 {
 .tarjeta-regla.necesidades{ border-left: 5px solid var(--color-necesidades); }
 .tarjeta-regla.deseos{ border-left: 5px solid var(--color-deseos); }
 .tarjeta-regla.ahorro{ border-left: 5px solid var(--color-ahorro); }
+.tarjeta-regla.activos { border-left: 5px solid var(--color-ingreso); }
+.tarjeta-regla.pasivos { border-left: 5px solid var(--color-gasto); }
 
 .monto-regla{
   font-size: 1.5rem;
