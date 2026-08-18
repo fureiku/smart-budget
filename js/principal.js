@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const formularioRecurrente = document.getElementById("form-recurrente");
   const formularioActivo = document.getElementById("form-activo");
   const formularioPasivo = document.getElementById("form-pasivo");
+  const formularioCuenta = document.getElementById("form-cuenta"); //Obtenemos el formulario de cuentas por su ID (Clase 8 - DOM)
 
   document.querySelectorAll(".boton-pestana").forEach(function (boton) {
     boton.addEventListener("click", function () {
@@ -11,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
       // Renderizar contenido dinámico al cambiar de pestaña
       const tab = boton.dataset.tab;
       if (tab === "regla") renderizarRegla();
+      if (tab ==="cuentas") renderizarCuentas();    //Se agrega para gestion de cuentas
       console.log("Renderizando regla");
     });
   });
@@ -92,6 +94,22 @@ document.addEventListener("DOMContentLoaded", function () {
     refrescarPantalla();
   });
 
+  /*---------Formulario de gestion de cuentas--------- */
+if(formularioCuenta){                                           // Se verifica que el formulario exista en la página (Clase 4 - if)
+  formularioCuenta.addEventListener("submit", function(evento){   //Se agrega un listener para el evento "submit" (Clase 10 - Eventos)
+   
+    evento.preventDefault();                                    //Evita que el formulario recargue la pagina (Clase 10 - Eventos)
+    agregarCuenta(                                              //Se obtiene los valores de los campos usando elements[] (Clase 8 - DOM) y se llama a la funcion agregarCuenta() definida en cuenta.js (Clase 6 - Funciones)
+      formularioCuenta.elements["cuenta-nombre"].value,
+      formularioCuenta.elements["cuenta-entidad"].value,
+      formularioCuenta.elements["cuenta-saldo"].value
+    );
+    formularioCuenta.reset();                                     // Se limpia los campos del formulario (Clase 8 - reset)
+    renderizarCuentas();
+  });
+}
+//Renderizado inicial
   refrescarPantalla();
   renderizarRegla();
+  renderizarCuentas();
 });

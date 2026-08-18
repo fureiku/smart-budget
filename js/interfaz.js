@@ -216,34 +216,44 @@ function renderizarRecurrentes() {
   });
 }
 
-// Regla 50/30/20
-function renderizarRegla() {
-  const movs = obtenerMovimientos();
-  const ahora = new Date();
-  const mes = ahora.getMonth();
-  const anio = ahora.getFullYear();
+/* ------------ Regla 50/30/20 (Renderizado) ----------- */
+/* Calcula y muestra la regla 50/30/20 para el mes actual
 
-  // Filtramos los movimientos del mes actual
-  const movimientosMesActual = movs.filter((mov) => {
-    const fechaMov = new Date(mov.fecha);
-    return fechaMov.getMonth() === mes && fechaMov.getFullYear() === anio;
+Clase 3: Operadores aritméticos (+, *, /)
+Clase 4: Estructuras condicionales (if/else if)
+Clase 5: Estructuras repetitivas (forEach, filter)
+Clase 7: Clase Date (getMonth, getFullYear)/ Clase Array (filter, reduce)
+Clase 8: DOM (getElementById, textContent, hidden)
+ */
+function renderizarRegla() {
+  //---Se Obtiene movimientos y fecha actual 
+  const movs = obtenerMovimientos();                                          // Clase 6 - Llamamos a obtenerMovimientos()
+  const ahora = new Date();                                                   // Clase 7 - new Date() crea un objeto con la fecha y hora actual
+  const mes = ahora.getMonth();                                               // Clase 7 - getMonth() devuelve el mes (0=Enero, 11=Diciembre)
+  const anio = ahora.getFullYear();                                           // Clase 7 - getFullYear() devuelve el año (4 dígitos)
+
+  //---Se filtra los movimientos del mes actual 
+  const movimientosMesActual = movs.filter((mov) => {                         // Clase 7 - filter() selecciona solo los movimientos del mes actual
+    const fechaMov = new Date(mov.fecha);                                     // Clase 7 - Convertimos la fecha string a objeto Date
+    return fechaMov.getMonth() === mes && fechaMov.getFullYear() === anio;    // Clase 4 - Operadores lógicos: comparamos mes Y año
   });
 
-  // Calculamos los totales de ingresos y gastos
-  const totalIngresos = movimientosMesActual
-    .filter((mov) => mov.tipo === "ingreso")
-    .reduce((sum, mov) => sum + mov.monto, 0);
+  //---Se calcula los totales de ingresos
+  const totalIngresos = movimientosMesActual                          
+    .filter((mov) => mov.tipo === "ingreso")                                  // Clase 7 - filter() solo ingresos
+    .reduce((sum, mov) => sum + mov.monto, 0);                                // Clase 7 - reduce() suma todos los montos (0 es valor inicial)
 
-  //Sumamos gastos segun su categoria
-  let gastosNecesidades = 0;
+  //--- Se inicializa contadores de gastos
+  let gastosNecesidades = 0;                                                  // Clase 2 - Variables: declaramos e inicializamos en 0
   let gastosDeseos = 0;
   let gastosAhorro = 0;
 
+  //--- Se clasifica gastos por categoria
   movimientosMesActual
-    .filter((mov) => mov.tipo === "gasto")
-    .forEach((mov) => {
-      const cat = mov.categoria || "ahorro";  // Si no tiene categoría, se considera como ahorro
-      if (cat === "necesidad") {
+    .filter((mov) => mov.tipo === "gasto") //Solo gastos
+    .forEach((mov) => {                                                       // Clase 5 - forEach recorre cada gasto del mes
+      const cat = mov.categoria || "ahorro";                                  // Clase 4 - Operador OR: si no tiene categoría, usa ahorro por defecto
+      if (cat === "necesidad") {                                              // Clase 4 - if/else if: sumamos al contador correspondiente
         gastosNecesidades += mov.monto;
       } else if (cat === "deseo") {
         gastosDeseos += mov.monto;
@@ -252,47 +262,144 @@ function renderizarRegla() {
       }
     });
 
+//--- Se calcula montos ideales segun 50/30/20 
   const neto = totalIngresos;
-  const idealNecesidades = neto * 0.5;
+  const idealNecesidades = neto * 0.5;                                                // Clase 3 - Multiplicación: 50% = 0.5, 30% = 0.3, 20% = 0.2
   const idealDeseos = neto * 0.3;
   const idealAhorro = neto * 0.2;
 
-  //Mostrar en el DOM
-  document.getElementById("regla-ingresos").textContent = formatearMoneda(neto);
+  //--- Se actualiza el DOM 
+  document.getElementById("regla-ingresos").textContent = formatearMoneda(neto);      // Clase 8 - getElementById y textContent para mostrar el ingreso neto
 
-  actualizarTarjetaRegla("necesidades", gastosNecesidades, idealNecesidades);
+  actualizarTarjetaRegla("necesidades", gastosNecesidades, idealNecesidades);         // Clase 6 - Llamamos a la función auxiliar para cada tarjeta
   actualizarTarjetaRegla("deseos", gastosDeseos, idealDeseos);
   actualizarTarjetaRegla("ahorro", gastosAhorro, idealAhorro);
 
-  const sinDatos = movimientosMesActual.length === 0;
-  document.getElementById("resumen-regla").hidden = sinDatos;
+//--- Mostrar/ocultar mensaje de "sin datos" 
+  const sinDatos = movimientosMesActual.length === 0;                                 // Clase 4 - Si no hay movimientos, mostramos el mensaje vacío
+  document.getElementById("resumen-regla").hidden = sinDatos;                         // Clase 8 - hidden: oculta o muestra elementos
   document.getElementById("sin-datos-regla").hidden = !sinDatos;
 }
 
+/* ----------- Actualizacion de una tarjeta individual de la relga 50/30/20 -------------*/
+/* Actualiza una tarjeta específica (necesidades, deseos o ahorro)
+
+ @param {string} tipo - "necesidades", "deseos" o "ahorro"
+ @param {number} gastoActual - Monto real gastado en esa categoría
+ @param {number} gastoIdeal - Monto ideal según la regla
+ 
+Clase 6: Funciones con parámetros
+Clase 8: DOM (getElementById, style, textContent)
+Clase 7: Math.min() y Math.round()
+Clase 4: Estructuras condicionales (if/else)
+Clase 3: Operadores aritméticos (división, multiplicación)
+ */
 function actualizarTarjetaRegla(tipo, gastoActual, gastoIdeal) {
-  const montoElemento = document.getElementById(`regla-${tipo}`);
+
+  const montoElemento = document.getElementById(`regla-${tipo}`);                 // Clase 8 - Obtenemos los elementos del DOM usando template strings
   const barraElemento = document.getElementById(`barra-${tipo}`);
   const porcentajeElemento = document.getElementById(`porcentaje-${tipo}`);
 
-  montoElemento.textContent = formatearMoneda(gastoActual);
+  montoElemento.textContent = formatearMoneda(gastoActual);                       // Clase 8 - Mostramos el monto real gastado
 
-  let porcentaje = Math.min((gastoActual / gastoIdeal) * 100, 100);
-  barraElemento.style.width = porcentaje + "%";
-  porcentajeElemento.textContent = Math.round(porcentaje) + "%";
+  //--- Se calcula el porcentaje 
+  let porcentaje = 0;
 
-  //Cambiamos el color si se paso de 100%
-  if (porcentaje > 100) {
+  if(gastoIdeal > 0){                                                            // Clase 4 - if: evitamos división por cero (si el ideal es 0, porcentaje queda 0)
+    porcentaje = Math.min((gastoActual / gastoIdeal) * 100, 100);                // Clase 3 - Fórmula: (gastoActual / gastoIdeal) * 100   // Clase 7 - Math.min() limita al 100% (para que la barra no se pase)
+  }
+
+  barraElemento.style.width = porcentaje + "%";                                  // Clase 8 - Actualizamos el ancho de la barra (style.width)
+  porcentajeElemento.textContent = Math.round(porcentaje) + "%";                 // Clase 7 - Math.round() redondea al entero más cercano
+
+  //--- Se cambia el color si se paso de 100% 
+  if (porcentaje > 100) {                                                        // Clase 4 - if/else: si el porcentaje supera 100, color rojo (alerta)
     barraElemento.style.backgroundColor = "#c62828";
   } else {
-    const colores = {
-      necesidades: "#2e7d32",
-      deseos: "#f9a825",
-      ahorro: "#1565c0",
+    const colores = {                                                            // Clase 7 - Objeto literal con colores por categoría
+      necesidades: "#2e7d32", //Verde
+      deseos: "#f9a825",      //Amarillo
+      ahorro: "#1565c0",      //Azul
     };
-    barraElemento.style.backgroundColor =
+
+    barraElemento.style.backgroundColor =                                        // Clase 8 - Asignamos el color correspondiente (si no existe, usa el color por defecto)
       colores[tipo] || "var(--color-primario)";
   }
 }
+
+/* ------------ Gestion de Cuentas Bancarias (Renderizado) ----------- */
+/* Renderiza las cuentas bancarias agrupadas por entidad
+
+Clase 6: Funciones (declaración, llamadas)
+Clase 8: DOM (createElement, appendChild, innerHTML, className)
+Clase 12: Plantillas de cadenas (`${}`)
+Clase 14: for...of con Object.entries()
+Clase 10: Eventos (addEventListener, click)
+ */
+function renderizarCuentas() {
+
+  const lista = document.getElementById("lista-cuentas");                 // Clase 8 - Obtenemos el contenedor de la lista y el mensaje vacío
+  const mensajeVacio = document.getElementById("sin-cuentas");
+
+  const todas = obtenerCuentas();                                         // Clase 6 - Llamamos a funciones definidas en cuentas.js
+  const movimientos = obtenerMovimientos();
+
+  lista.innerHTML = "";                                                   // Clase 8 - Limpiamos el contenido previo
+  mensajeVacio.hidden = todas.length > 0;                                 // Clase 8 - Ocultamos el mensaje vacío si hay cuentas
+
+  if (todas.length === 0) return;                                         // Clase 4 - Si no hay cuentas, salimos de la función (return)
+
+  const grupos = agruparCuentasPorEntidad();                              // Clase 6 - Agrupamos cuentas por entidad (función de cuentas.js)
+
+  for (const [entidad, cuentasDeEntidad] of Object.entries(grupos)) {     // Clase 14 - for...of con Object.entries() para recorrer el objeto // Object.entries() convierte el objeto en array de pares [clave, valor]
+  
+    const grupoDiv = document.createElement("div");                       // Clase 8 - createElement() crea un nuevo elemento HTML
+    grupoDiv.className = "grupo-entidad";                                 // Clase 8 - className asigna una clase CSS
+
+    const titulo = document.createElement("h4");                          // Clase 8 - Creamos un <h4> con el nombre de la entidad
+    titulo.textContent = entidad;
+    grupoDiv.appendChild(titulo);                                         // Clase 8 - appendChild agrega el título al grupo
+
+    const grid = document.createElement("div");                           // Clase 8 - Creamos un contenedor grid para las tarjetas
+    grid.className = "grid-cuentas";
+
+    grid.style.display = "grid";                                          // Clase 8 - style: aplicamos estilos en línea
+    grid.style.gridTemplateColumns = "1fr 1fr";
+    grid.style.gap = "1rem";
+
+    cuentasDeEntidad.forEach(c => {                                        // Clase 5 - forEach recorre cada cuenta de la entidad
+                                 
+      const saldo = obtenerSaldoCuenta(c.id, movimientos);                 // Clase 6 - Calculamos el saldo actual de la cuenta
+     
+      const tarjeta = document.createElement("div");                       // Clase 8 - Creamos una tarjeta para la cuenta
+      tarjeta.className = "tarjeta-cuenta";
+
+      // Clase 12 - Plantilla de cadena para generar el HTML interno
+      tarjeta.innerHTML = `                                     
+        <span class="nombre-cuenta">${c.nombre}</span>
+        <span class="entidad-cuenta">${c.entidad}</span>
+        <span class="saldo-cuenta">${formatearMoneda(saldo)}</span>
+        <div class="acciones-cuenta">
+          <button class="boton-eliminar" data-id="${c.id}">Eliminar</button>
+        </div>
+      `;
+
+      tarjeta.querySelector(".boton-eliminar").addEventListener("click", function() {       // Clase 10 - Evento click al botón "Eliminar"
+        if (confirm(`¿Eliminar la cuenta "${c.nombre}"?`)) {                                // Clase 4 - confirm() muestra un cuadro de diálogo con "Aceptar/Cancelar"
+          eliminarCuenta(c.id);                                                             // Clase 6 - Llamamos a eliminarCuenta() (definida en cuentas.js)
+          renderizarCuentas();                                                              // Clase 6 - Llamamos a renderizarCuentas() para actualizar la vista
+        }
+      });
+
+      grid.appendChild(tarjeta);                                                            // Clase 8 - Agregamos la tarjeta al grid
+    });
+
+    grupoDiv.appendChild(grid);                                                             // Clase 8 - Agregamos el grid al grupo
+    lista.appendChild(grupoDiv);                                                            // Clase 8 - Agregamos el grupo a la lista principal
+  }
+}
+
+
 
 function refrescarPantalla() {
   renderizarLista("ingreso", "lista-ingresos", "sin-ingresos");
@@ -302,5 +409,6 @@ function refrescarPantalla() {
   renderizarListaPatrimonio("activo", "lista-activos", "sin-activos");
   renderizarListaPatrimonio("pasivo", "lista-pasivos", "sin-pasivos");
   renderizarPatrimonio();
-  renderizarRegla();
+  renderizarRegla();                //Actualiza regla 50/30/20
+  renderizarCuentas();              //Actualiza cuentas
 }

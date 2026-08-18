@@ -25,6 +25,7 @@
     <button class="boton-pestana" data-tab="activos" type="button">Activos</button>
     <button class="boton-pestana" data-tab="pasivos" type="button">Pasivos</button>
     <button class="boton-pestana" data-tab="patrimonio" type="button">Patrimonio</button>
+    <button class="boton-pestana" data-tab="cuentas" type="button">Cuentas</button>
   </nav>
 
   <main class="contenido-app">
@@ -295,6 +296,34 @@
 
       <p id="sin-datos-regla" class="estado-vacio">Todavía no registraste ningún ingreso.</p>
     </section>
+<!--Panel Gestion de Cuentas-->
+<section id="cuentas" class="panel-pestana">
+  <div class="titulo-seccion">
+    <h2>Gestión de cuentas bancarias</h2>
+    <p>Agrega y clasifica tus activos por entidad</p>
+  </div>
+
+  <form id="form-cuenta" class="formulario">
+    <div class="fila-formulario">
+      <label for="cuenta-nombre">Nombre de la cuenta</label>
+      <input type="text" id="cuenta-nombre" placeholder="Ej: Cuenta sueldo" required />
+    </div>
+    <div class="fila-formulario">
+      <label for="cuenta-entidad">Entidad bancaria</label>
+      <input type="text" id="cuenta-entidad" placeholder="Ej: Banco Itaú" required />
+    </div>
+    <div class="fila-formulario">
+      <label for="cuenta-saldo">Saldo inicial</label>
+      <input type="number" id="cuenta-saldo" placeholder="0" min="0" step="1" required />
+    </div>
+    <button type="submit" class="boton boton-primario">Agregar cuenta</button>
+  </form>
+
+  <div id="contenedor-cuentas">
+    <p id="sin-cuentas" class="estado-vacio">Todavía no registraste ninguna cuenta.</p>
+    <div id="lista-cuentas"></div>
+  </div>
+</section>
 
   </main>
 
@@ -347,6 +376,7 @@
   <script src="js/movimientos.js"></script>
   <script src="js/recurrentes.js"></script>
   <script src="js/patrimonio.js"></script>
+  <script src="js/cuentas.js"></script> 
   <script src="js/interfaz.js"></script>
   <script src="js/principal.js"></script>
 </body>
