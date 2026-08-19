@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   /*---------Formulario de gestion de cuentas--------- */
-if(formularioCuenta){                                           // Se verifica que el formulario exista en la página (Clase 4 - if)
+if(formularioCuenta){                                           // Se verifica que el formulario exista en la página (Clase 3 - if)
   formularioCuenta.addEventListener("submit", function(evento){   //Se agrega un listener para el evento "submit" (Clase 10 - Eventos)
    
     evento.preventDefault();                                    //Evita que el formulario recargue la pagina (Clase 10 - Eventos)
@@ -134,8 +134,8 @@ if(formularioCuenta){                                           // Se verifica q
 /*----Carga de cuentas en los selectores de los formularios
 Llena dinamicamente los selectores de cuentas en los formularios de ingreso y gastos
 
-Clase 2:(getElementById, innerHTML, createElement)
-Clase 8:  Formularios (select, option) - DOM 
+Clase 2: getElementById, innerHTML
+Clase 8:  Formularios (select, option) - DOM - (createElement)
 Clase 5: Estructuras repetitivas (forEach)
 Clase 6: Funciones 
 Clase 12: Plantillas de cadenas (`${}`)
