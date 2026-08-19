@@ -26,6 +26,7 @@
     <button class="boton-pestana" data-tab="pasivos" type="button">Pasivos</button>
     <button class="boton-pestana" data-tab="patrimonio" type="button">Patrimonio</button>
     <button class="boton-pestana" data-tab="cuentas" type="button">Cuentas</button>
+    <button class="boton-pestana" data-tab="prestamos" type="button">Préstamos</button>
   </nav>
 
   <main class="contenido-app">
@@ -296,34 +297,46 @@
 
       <p id="sin-datos-regla" class="estado-vacio">Todavía no registraste ningún ingreso.</p>
     </section>
-<!--Panel Gestion de Cuentas-->
-<section id="cuentas" class="panel-pestana">
-  <div class="titulo-seccion">
-    <h2>Gestión de cuentas bancarias</h2>
-    <p>Agrega y clasifica tus activos por entidad</p>
-  </div>
+    <!--Panel Gestion de Cuentas-->
+    <section id="cuentas" class="panel-pestana">
+      <div class="titulo-seccion">
+        <h2>Gestión de cuentas bancarias</h2>
+        <p>Agrega y clasifica tus activos por entidad</p>
+      </div>
 
-  <form id="form-cuenta" class="formulario">
-    <div class="fila-formulario">
-      <label for="cuenta-nombre">Nombre de la cuenta</label>
-      <input type="text" id="cuenta-nombre" placeholder="Ej: Cuenta sueldo" required />
-    </div>
-    <div class="fila-formulario">
-      <label for="cuenta-entidad">Entidad bancaria</label>
-      <input type="text" id="cuenta-entidad" placeholder="Ej: Banco Itaú" required />
-    </div>
-    <div class="fila-formulario">
-      <label for="cuenta-saldo">Saldo inicial</label>
-      <input type="number" id="cuenta-saldo" placeholder="0" min="0" step="1" required />
-    </div>
-    <button type="submit" class="boton boton-primario">Agregar cuenta</button>
-  </form>
+      <form id="form-cuenta" class="formulario">
+        <div class="fila-formulario">
+          <label for="cuenta-nombre">Nombre de la cuenta</label>
+          <input type="text" id="cuenta-nombre" placeholder="Ej: Cuenta sueldo" required />
+        </div>
+        <div class="fila-formulario">
+          <label for="cuenta-entidad">Entidad bancaria</label>
+          <input type="text" id="cuenta-entidad" placeholder="Ej: Banco Itaú" required />
+        </div>
+        <div class="fila-formulario">
+          <label for="cuenta-saldo">Saldo inicial</label>
+          <input type="number" id="cuenta-saldo" placeholder="0" min="0" step="1" required />
+        </div>
+        <button type="submit" class="boton boton-primario">Agregar cuenta</button>
+      </form>
 
-  <div id="contenedor-cuentas">
-    <p id="sin-cuentas" class="estado-vacio">Todavía no registraste ninguna cuenta.</p>
-    <div id="lista-cuentas"></div>
-  </div>
-</section>
+      <div id="contenedor-cuentas">
+        <p id="sin-cuentas" class="estado-vacio">Todavía no registraste ninguna cuenta.</p>
+        <div id="lista-cuentas"></div>
+      </div>
+    </section>
+    <!--Panel Gestion de Prestamos que se carga con React-->
+    <section id="prestamos" class="panel-pestana">
+      <div class="titulo-seccion">
+        <div>
+          <h2>Préstamos y deudas</h2>
+          <p>Seguí tus préstamos, el saldo pendiente y los pagos realizados.</p>
+        </div>
+      </div>
+
+      <!-- React monta el componente AppPrestamos dentro de este div (js/prestamos-app.jsx) -->
+      <div id="react-prestamos"></div>
+    </section>
 
   </main>
 
@@ -379,5 +392,13 @@
   <script src="js/cuentas.js"></script> 
   <script src="js/interfaz.js"></script>
   <script src="js/principal.js"></script>
+
+  <!-- Prestamos y deudas: unica seccion implementada en React, via CDN + Babel -->
+  <!-- standalone (sin bundler) para no cambiar la arquitectura del resto del sitio. -->
+  <script src="js/prestamos.js"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel" src="js/prestamos-app.jsx"></script>
 </body>
 </html>

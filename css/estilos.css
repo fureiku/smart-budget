@@ -436,7 +436,62 @@ h2 {
   margin-top: 2rem;
 }
 
-/* ----- Responsive ----- */
+/* ----- Prestamos y deudas  ----- */
+.lista-prestamos {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 650px;
+}
+
+.tarjeta-prestamo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-left: 5px solid var(--color-primario);
+  border-radius: var(--radio);
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.tarjeta-prestamo.atrasado { border-left-color: var(--color-gasto); }
+.tarjeta-prestamo.saldado { border-left-color: var(--color-ingreso); }
+
+.encabezado-tarjeta-prestamo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.detalle-prestamo {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-tenue);
+}
+
+.historial-pagos {
+  list-style: none;
+  padding: 0;
+  margin: 0.3rem 0;
+  font-size: 0.85rem;
+  color: var(--color-tenue);
+}
+
+.formulario-pago {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.3rem;
+}
+
+.formulario-pago input {
+  flex: 1;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+}
 
 @media (max-width: 700px) {
   .contenido-app {
