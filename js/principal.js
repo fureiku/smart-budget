@@ -121,6 +121,7 @@ if(formularioCuenta){                                           // Se verifica q
     );
     formularioCuenta.reset();                                     // Se limpia los campos del formulario (Clase 8 - reset)
     renderizarCuentas();
+    cargarCuentasEnSelectores();
   });
 }
 /*----Carga de cuentas en los selectores de los formularios
