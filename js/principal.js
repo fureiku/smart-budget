@@ -137,10 +137,10 @@ Clase 13: Clase Array
 function cargarCuentasEnSelectores() {
   //--- Se obtienen todas la cuentas
   const cuentas = obtenerCuentas();                                                     //Clase 6 - Se llama a obtenerCuentas() (definida en cuentas.js)
-   console.log("🔍 Cuentas obtenidas:", cuentas);                                                                                     //retorna un array de objetos (cada objeto es una cuenta)
+                                                                                        //retorna un array de objetos (cada objeto es una cuenta)
   //--- Selector de cuentas en el formulario de gastos
   const selectGasto = document.getElementById("gasto-cuenta");                           //Clase 2: getElementById() obtiene el elemento <select> del DOM  
-  console.log("🔍 selectGasto:", selectGasto);                                                               
+                                                             
   if (selectGasto) {                                                                     // Clase 3 - if: verificamos que el elemento exista en la página
     //--- Se limpia opciones (conservar la primera opción "Sin cuenta")
     selectGasto.innerHTML = '<option value="">Sin cuenta (efectivo)</option>';           //Clase 2 - innerHTML: reemplazamos todo el contenido del <select> // Clase 12 - (`${}`) creamos la opción por defecto
@@ -156,7 +156,7 @@ function cargarCuentasEnSelectores() {
 
   //--- Selector de cuentas en el formulario de ingresos
   const selectIngreso = document.getElementById("ingreso-cuenta");                      //Clase 2 - getElementById() obtiene el <select> de ingresos
-  console.log("🔍 selectIngreso:", selectIngreso);
+
   if (selectIngreso) {                                                                  //Clase 3 - if: verificamos que el elemento exista
     selectIngreso.innerHTML = '<option value="">Sin cuenta (efectivo)</option>';        //Clase 2 - innerHTML: opción por defecto "Sin cuenta"
     cuentas.forEach(c => {                                                              //Clase 5 - forEach: recorremos las cuentas nuevamente

@@ -144,7 +144,7 @@ function obtenerSaldoCuenta(idCuenta, movimientos){
 Clase 5 - forEach() para recorrer array
 Clase 7 - Objetos (uso de corchetes para propiedades dinámicas)
 Clase 14 - Array.push() para agregar a un grupo
-lase 12 - forEach con arrow function
+Clase 12 - forEach con arrow function
  */
 function agruparCuentasPorEntidad(){
 
