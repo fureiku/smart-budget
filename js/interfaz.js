@@ -418,3 +418,84 @@ function refrescarPantalla() {
     cargarCuentasEnSelectores();
   }
 }
+
+/* ------------ Exportar historial a CSV ----------- */
+/* Genera un archivo .csv con todos los movimientos del historial
+   y lo descarga en la computadora del usuario.
+
+Clase 3: Estructuras condicionales (if) - Operador ternario
+Clase 6: Funciones (declaración, parámetros, return)
+Clase 7: Clase Date (toISOString) - Objetos
+Clase 8: DOM (createElement, appendChild, removeChild, click)
+Clase 12: Plantillas de cadenas (`${}`) - Funciones flecha (=>)
+Clase 13: Clase Array (map, find, concat, join)
+*/
+
+// Prepara un valor para el CSV: lo encierra entre comillas y duplica
+// las comillas internas, así una descripción con ; o " no rompe el archivo.
+function escaparCampoCSV(valor) {
+  const texto = String(valor);                            
+  return `"${texto.replace(/"/g, '""')}"`;                
+}
+
+// Arma el contenido del CSV a partir de los movimientos del historial.
+function generarContenidoCSV(listaMovimientos) {
+  const cuentas = obtenerCuentas();                       
+
+  const encabezados = [                                   
+    "Fecha",
+    "Tipo",
+    "Descripcion",
+    "Monto",
+    "Categoria",
+    "Cuenta",
+  ];
+
+  const filas = listaMovimientos.map(function (movimiento) {                  
+    const cuenta = cuentas.find((c) => c.id === movimiento.cuentaId);         
+
+    return [
+      formatearFecha(movimiento.fecha),                                       
+      movimiento.tipo === "ingreso" ? "Ingreso" : "Gasto",                   
+      movimiento.descripcion,
+      movimiento.monto,                                                       
+      movimiento.categoria || "-",                                            
+      cuenta ? `${cuenta.nombre} (${cuenta.entidad})` : "Efectivo",           
+    ];
+  });
+
+  const lineas = [encabezados].concat(filas).map(function (fila) {            
+    return fila.map(escaparCampoCSV).join(";");                              
+  });
+
+  // "\uFEFF" es el BOM: le avisa a Excel que el archivo usa UTF-8 para que los acentos y la ñ se vean bien.
+  return "\uFEFF" + lineas.join("\r\n");                                      
+}
+
+// Descarga el historial como archivo .csv
+function descargarHistorialCSV() {
+  const movimientosHistorial = obtenerMovimientos();                          
+
+  if (movimientosHistorial.length === 0) {                                    
+    alert("No hay movimientos en el historial para descargar.");
+    return;                                                                   
+  }
+
+  const contenido = generarContenidoCSV(movimientosHistorial);                
+
+  // Blob = archivo en memoria. Le indicamos que es un CSV en UTF-8.
+  const archivo = new Blob([contenido], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(archivo);                                   
+
+  const hoy = new Date().toISOString().slice(0, 10);                          
+
+  const enlace = document.createElement("a");                                 
+  enlace.href = url;
+  enlace.download = `historial_${hoy}.csv`;                                   
+
+  document.body.appendChild(enlace);                                          
+  enlace.click();                                                             
+  document.body.removeChild(enlace);                                          
+
+  URL.revokeObjectURL(url);
+}

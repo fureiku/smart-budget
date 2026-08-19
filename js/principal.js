@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const formularioActivo = document.getElementById("form-activo");
   const formularioPasivo = document.getElementById("form-pasivo");
   const formularioCuenta = document.getElementById("form-cuenta"); //Obtenemos el formulario de cuentas por su ID (Clase 8 - DOM)
+  const botonExportarCSV = document.getElementById("boton-exportar-csv");//Botón de exportar historial a CSV     
+
+  if (botonExportarCSV) {                                                     
+    botonExportarCSV.addEventListener("click", function () {                  
+      descargarHistorialCSV();                                               
+    });
+  }
 
   document.querySelectorAll(".boton-pestana").forEach(function (boton) {
     boton.addEventListener("click", function () {
