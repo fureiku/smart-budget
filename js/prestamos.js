@@ -53,7 +53,7 @@ class Prestamo {
 }
 
 // Clase 4: switch(variable)
-function obtenerEtiquestaEstado(estado) {
+function obtenerEtiquetaEstado(estado) {
   switch (estado) {
     case "saldado":
       return "Saldado";
