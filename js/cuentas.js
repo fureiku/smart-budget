@@ -1,10 +1,10 @@
 /*  Gestion de cuentas bancarias
-- Clase 2: Variables (const, let), tipos de datos (string, number)
-- Clase 6: Funciones (declaración, parámetros, return)
-- Clase 7: Clase Array (push, filter, find, forEach, reduce)
+- Clase 2: Variables (const, let), tipos de datos (string, number) - getElementById, innerHTML
+- Clase 6: Funciones (declaración, parámetros, return)\
 - Clase 7: Date.now() para generar ID único
-- Clase 8: DOM (getElementById, innerHTML) [indirectamente]
+- Clase 8: DOM (getElementById, innerHTML) 
 - Clase 12: Plantillas de cadenas (`${}`)
+- Clase 13: Clase Array (push, filter, find, forEach, reduce)
 - Clase 14: Operador Spread (...)
  */
 
@@ -19,17 +19,16 @@ const CLAVE_CUENTAS = "viruflow_cuentas";
 
  @returns {Array} Array de cuentas (vacío si no hay datos)
 
- Clase 2 - Variables (try/catch)
+ Clase 2 - Variables
  Clase 6 - Funciones
- Clase 7 - JSON.parse() para convertir string a objeto
  */
 function cargarCuentas(){
 
     try{
-        const texto = localStorage.getItem(CLAVE_CUENTAS);      // Clase 8 - localStorage.getItem() para recuperar datos
+        const texto = localStorage.getItem(CLAVE_CUENTAS);      // localStorage.getItem() para recuperar datos
         
         return texto ? JSON.parse(texto): []                    // Clase 4 - Operador ternario: si hay texto, lo parseamos, si no, array vacío
-                                                                 // Clase 7 - JSON.parse() convierte string a objeto/array
+                                                                 // JSON.parse() convierte string a objeto/array
     }catch{
         return [];                                              // Clase 2 - Si falla, retornamos array vacío (Clase 6 - return)
     }
@@ -63,21 +62,19 @@ let cuentas = cargarCuentas();                                                  
 
 Clase 6 - Funciones con parámetros
 Clase 7 - Date.now() para ID único (timestamp)
-Clase 7 - String.trim() para eliminar espacios
-Clase 7 - Number() para convertir a número
-Clase 7 - Array.push() para agregar al final
+Clase 14 - Array.push() para agregar al final
  */
 function agregarCuenta(nombre, entidad, saldoInicial) {
     
     const nuevaCuenta = {                                               // Clase 7 - Creamos un objeto literal con los datos de la cuenta
         
         id: Date.now(),                                                 // Clase 7 - Date.now() genera un número único basado en la hora actual
-        nombre:nombre.trim(),                                           // Clase 7 - trim() elimina espacios al inicio y final
+        nombre:nombre.trim(),                                           // trim() elimina espacios al inicio y final
         entidad: entidad.trim(),
-        saldoInicial: Number(saldoInicial) || 0                         // Clase 2 - Number() convierte string a número. Si falla, usa 0 (operador OR)
+        saldoInicial: Number(saldoInicial) || 0                         // Clase 4 - Number() convierte string a número. Si falla, usa 0 (operador OR)
     };
 
-    cuentas.push(nuevaCuenta);                                          // Clase 7 - push() agrega el objeto al array 'cuentas'
+    cuentas.push(nuevaCuenta);                                          // Clase 14 - push() agrega el objeto al array 'cuentas'
     guardarCuentas();                                                   // Clase 6 - Llamamos a la función para guardar en localStorage
 }
 
@@ -87,13 +84,13 @@ function agregarCuenta(nombre, entidad, saldoInicial) {
 
 @param {number} id - ID de la cuenta a eliminar
 
-Clase 7 - Array.filter() (crea un nuevo array sin el elemento)
+Clase 13 - Array.filter() (crea un nuevo array sin el elemento)
 Clase 11 - Operador de desigualdad estricta (!==)
  */
 function eliminarCuenta (id){                                           
-                                                                        // Clase 7 - filter() recorre el array y crea uno nuevo con los elementos que cumplen la condición
+                                                                        // Clase 13 - filter() recorre el array y crea uno nuevo con los elementos que cumplen la condición
     cuentas = cuentas.filter(c => c.id !== id);                         // Clase 11 - !== significa "distinto en valor y tipo"
-                                                                        // Clase 5 - Arrow function (=>) vista en Clase 12 - Funciones flecha
+                                                                        // Clase 12 - Funciones flecha (=>)  
     guardarCuentas();                                                   // Clase 6 - Guardamos el array actualizado
 }
 
@@ -119,21 +116,20 @@ function obtenerCuentas() {
  @param {Array} movimientos - Lista de movimientos (ingresos y gastos)
  @returns {number} Saldo actual de la cuenta
  
-Clase 7 - Array.find() (buscar un elemento) / Array.filter() (filtrar movimientos) / Array.reduce() (sumar montos)
+Clase 13 - Array.find() (buscar un elemento) / Array.filter() (filtrar movimientos) / Array.reduce() (sumar montos)
 Clase 4 - Operadores lógicos (&&)
-Clase 5 - Estructura condicional (if)
-Clase 3 - Operadores aritméticos (+, -)
+Clase 3 - Estructura condicional (if) - Operadores aritméticos (+, -)
  */
 function obtenerSaldoCuenta(idCuenta, movimientos){
 
-    const cuenta = cuentas.find(c => c.id === idCuenta);            // Clase 7 - find() busca la cuenta que coincida con el ID
-    if (!cuenta) return 0;                                          // Clase 4 - if: si no existe la cuenta, retornamos 0
+    const cuenta = cuentas.find(c => c.id === idCuenta);            // Clase 13 - find() busca la cuenta que coincida con el ID
+    if (!cuenta) return 0;                                          // Clase 3 - if: si no existe la cuenta, retornamos 0
 
     const ingresos = movimientos                                            
-        .filter(m => m.cuentaId === idCuenta && m.tipo === "ingreso")       // Clase 7 - filter() selecciona solo los ingresos de esta cuenta // Clase 4 - && (Y lógico): cumple ambas condiciones (misma cuenta Y tipo ingreso)
-        .reduce((sum, m) => sum + m.monto, 0);                              // Clase 7 - reduce() suma todos los montos de los ingresos
+        .filter(m => m.cuentaId === idCuenta && m.tipo === "ingreso")       // Clase 13 - filter() selecciona solo los ingresos de esta cuenta // Clase 4 - && (Y lógico): cumple ambas condiciones (misma cuenta Y tipo ingreso)
+        .reduce((sum, m) => sum + m.monto, 0);                              // Clase 13 - reduce() suma todos los montos de los ingresos
 
-    const gastos = movimientos                                              // Clase 7 - filter() selecciona solo los gastos de esta cuenta
+    const gastos = movimientos                                              // Clase 13 - filter() selecciona solo los gastos de esta cuenta
         .filter(m => m.cuentaId === idCuenta && m.tipo === "gasto")
         .reduce((sum, m) => sum + m.monto, 0);
 
@@ -148,7 +144,7 @@ function obtenerSaldoCuenta(idCuenta, movimientos){
 
 Clase 5 - forEach() para recorrer array
 Clase 7 - Objetos (uso de corchetes para propiedades dinámicas)
-Clase 7 - Array.push() para agregar a un grupo
+Clase 14 - Array.push() para agregar a un grupo
 lase 12 - forEach con arrow function
  */
 function agruparCuentasPorEntidad(){
@@ -157,9 +153,9 @@ function agruparCuentasPorEntidad(){
 
     cuentas.forEach (c => {                             // Clase 5 - forEach recorre cada cuenta del array 'cuentas' // Clase 12 - Arrow function (=>) para simplificar
         if(!grupos [c.entidad]){                        // Clase 7 - Si la entidad no existe como clave en el objeto, la creamos. Usamos corchetes para acceder a una propiedad dinámica                                            
-            grupos[c.entidad] = [];                     // Clase 7 - Inicializamos un array vacío
+            grupos[c.entidad] = [];                     //  Inicializamos un array vacío
         } 
-        grupos[c.entidad].push(c);                      // Clase 7 - push() agrega la cuenta al grupo correspondiente
+        grupos[c.entidad].push(c);                      // Clase 14 - push() agrega la cuenta al grupo correspondiente
     });
     return grupos;                                      // Clase 6 - Retornamos el objeto con los grupos
 }

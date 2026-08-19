@@ -219,11 +219,13 @@ function renderizarRecurrentes() {
 /* ------------ Regla 50/30/20 (Renderizado) ----------- */
 /* Calcula y muestra la regla 50/30/20 para el mes actual
 
-Clase 3: Operadores aritméticos (+, *, /)
-Clase 4: Estructuras condicionales (if/else if)
+Clase 2: (getElementById, textContent)
+Clase 3: Operadores aritméticos (+, *, /) - Estructuras condicionales (if/else if)
+Clase 4 :Operadores Logicos (&& , ||) 
 Clase 5: Estructuras repetitivas (forEach, filter)
-Clase 7: Clase Date (getMonth, getFullYear)/ Clase Array (filter, reduce)
-Clase 8: DOM (getElementById, textContent, hidden)
+Clase 7: Clase Date (getMonth, getFullYear)/
+Clase 11: Operadores de igualdad y desigualdad (===)
+Clase 13: Clase Array (filter, reduce)
  */
 function renderizarRegla() {
   //---Se Obtiene movimientos y fecha actual 
@@ -233,15 +235,15 @@ function renderizarRegla() {
   const anio = ahora.getFullYear();                                           // Clase 7 - getFullYear() devuelve el año (4 dígitos)
 
   //---Se filtra los movimientos del mes actual 
-  const movimientosMesActual = movs.filter((mov) => {                         // Clase 7 - filter() selecciona solo los movimientos del mes actual
+  const movimientosMesActual = movs.filter((mov) => {                         // Clase 13 - filter() selecciona solo los movimientos del mes actual
     const fechaMov = new Date(mov.fecha);                                     // Clase 7 - Convertimos la fecha string a objeto Date
     return fechaMov.getMonth() === mes && fechaMov.getFullYear() === anio;    // Clase 4 - Operadores lógicos: comparamos mes Y año
   });
 
   //---Se calcula los totales de ingresos
   const totalIngresos = movimientosMesActual                          
-    .filter((mov) => mov.tipo === "ingreso")                                  // Clase 7 - filter() solo ingresos
-    .reduce((sum, mov) => sum + mov.monto, 0);                                // Clase 7 - reduce() suma todos los montos (0 es valor inicial)
+    .filter((mov) => mov.tipo === "ingreso")                                  // Clase 13 - filter() solo ingresos
+    .reduce((sum, mov) => sum + mov.monto, 0);                                // Clase 13 - reduce() suma todos los montos (0 es valor inicial)
 
   //--- Se inicializa contadores de gastos
   let gastosNecesidades = 0;                                                  // Clase 2 - Variables: declaramos e inicializamos en 0
@@ -251,9 +253,9 @@ function renderizarRegla() {
   //--- Se clasifica gastos por categoria
   movimientosMesActual
     .filter((mov) => mov.tipo === "gasto") //Solo gastos
-    .forEach((mov) => {                                                       // Clase 5 - forEach recorre cada gasto del mes
+    .forEach((mov) => {                                                       // Clase 12 - forEach recorre cada gasto del mes
       const cat = mov.categoria || "ahorro";                                  // Clase 4 - Operador OR: si no tiene categoría, usa ahorro por defecto
-      if (cat === "necesidad") {                                              // Clase 4 - if/else if: sumamos al contador correspondiente
+      if (cat === "necesidad") {                                              // Clase 3 - if/else if: sumamos al contador correspondiente
         gastosNecesidades += mov.monto;
       } else if (cat === "deseo") {
         gastosDeseos += mov.monto;
@@ -269,15 +271,15 @@ function renderizarRegla() {
   const idealAhorro = neto * 0.2;
 
   //--- Se actualiza el DOM 
-  document.getElementById("regla-ingresos").textContent = formatearMoneda(neto);      // Clase 8 - getElementById y textContent para mostrar el ingreso neto
+  document.getElementById("regla-ingresos").textContent = formatearMoneda(neto);      // Clase 2 - getElementById y textContent para mostrar el ingreso neto
 
   actualizarTarjetaRegla("necesidades", gastosNecesidades, idealNecesidades);         // Clase 6 - Llamamos a la función auxiliar para cada tarjeta
   actualizarTarjetaRegla("deseos", gastosDeseos, idealDeseos);
   actualizarTarjetaRegla("ahorro", gastosAhorro, idealAhorro);
 
 //--- Mostrar/ocultar mensaje de "sin datos" 
-  const sinDatos = movimientosMesActual.length === 0;                                 // Clase 4 - Si no hay movimientos, mostramos el mensaje vacío
-  document.getElementById("resumen-regla").hidden = sinDatos;                         // Clase 8 - hidden: oculta o muestra elementos
+  const sinDatos = movimientosMesActual.length === 0;                                 // Clase 11: (===) Si no hay movimientos, mostramos el mensaje vacío
+  document.getElementById("resumen-regla").hidden = sinDatos;                         //hidden: oculta o muestra elementos
   document.getElementById("sin-datos-regla").hidden = !sinDatos;
 }
 
@@ -291,8 +293,8 @@ function renderizarRegla() {
 Clase 6: Funciones con parámetros
 Clase 8: DOM (getElementById, style, textContent)
 Clase 7: Math.min() y Math.round()
-Clase 4: Estructuras condicionales (if/else)
-Clase 3: Operadores aritméticos (división, multiplicación)
+Clase 4 :Operadores Logicos (&& , ||) 
+Clase 3: Estructuras condicionales (if/else) - Operadores aritméticos (división, multiplicación)
  */
 function actualizarTarjetaRegla(tipo, gastoActual, gastoIdeal) {
 
@@ -305,7 +307,7 @@ function actualizarTarjetaRegla(tipo, gastoActual, gastoIdeal) {
   //--- Se calcula el porcentaje 
   let porcentaje = 0;
 
-  if(gastoIdeal > 0){                                                            // Clase 4 - if: evitamos división por cero (si el ideal es 0, porcentaje queda 0)
+  if(gastoIdeal > 0){                                                            // Clase 3 - if: evitamos división por cero (si el ideal es 0, porcentaje queda 0)
     porcentaje = Math.min((gastoActual / gastoIdeal) * 100, 100);                // Clase 3 - Fórmula: (gastoActual / gastoIdeal) * 100   // Clase 7 - Math.min() limita al 100% (para que la barra no se pase)
   }
 
@@ -313,7 +315,7 @@ function actualizarTarjetaRegla(tipo, gastoActual, gastoIdeal) {
   porcentajeElemento.textContent = Math.round(porcentaje) + "%";                 // Clase 7 - Math.round() redondea al entero más cercano
 
   //--- Se cambia el color si se paso de 100% 
-  if (porcentaje > 100) {                                                        // Clase 4 - if/else: si el porcentaje supera 100, color rojo (alerta)
+  if (porcentaje > 100) {                                                        // Clase 3 - if/else: si el porcentaje supera 100, color rojo (alerta)
     barraElemento.style.backgroundColor = "#c62828";
   } else {
     const colores = {                                                            // Clase 7 - Objeto literal con colores por categoría
@@ -322,7 +324,7 @@ function actualizarTarjetaRegla(tipo, gastoActual, gastoIdeal) {
       ahorro: "#1565c0",      //Azul
     };
 
-    barraElemento.style.backgroundColor =                                        // Clase 8 - Asignamos el color correspondiente (si no existe, usa el color por defecto)
+    barraElemento.style.backgroundColor =                                        // Clase 4 - ( || ) Asignamos el color correspondiente (si no existe, usa el color por defecto)
       colores[tipo] || "var(--color-primario)";
   }
 }
@@ -385,7 +387,7 @@ function renderizarCuentas() {
       `;
 
       tarjeta.querySelector(".boton-eliminar").addEventListener("click", function() {       // Clase 10 - Evento click al botón "Eliminar"
-        if (confirm(`¿Eliminar la cuenta "${c.nombre}"?`)) {                                // Clase 4 - confirm() muestra un cuadro de diálogo con "Aceptar/Cancelar"
+        if (confirm(`¿Eliminar la cuenta "${c.nombre}"?`)) {                                // confirm() muestra un cuadro de diálogo con "Aceptar/Cancelar"
           eliminarCuenta(c.id);                                                             // Clase 6 - Llamamos a eliminarCuenta() (definida en cuentas.js)
           renderizarCuentas();                                                              // Clase 6 - Llamamos a renderizarCuentas() para actualizar la vista
         }
