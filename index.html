@@ -50,6 +50,13 @@
           <label for="ingreso-fecha">Fecha</label>
           <input name="fecha" type="date" id="ingreso-fecha" required />
         </div>
+        <!-- Selector de cuenta -->
+        <div class="fila-formulario">
+          <label for="gasto-cuenta">Cuenta bancaria</label>
+          <select name="cuenta" id="gasto-cuenta">
+            <option value="">Sin cuenta (efectivo)</option>
+          </select>
+        </div>
         <button type="submit" class="boton boton-primario">Agregar ingreso</button>
       </form>
 
@@ -90,6 +97,16 @@
             <option value="ahorro">Ahorro (20%)</option>
           </select>
         </div>
+
+        <!-- Selector de cuenta -->
+        <div class="fila-formulario">
+          <label for="gasto-cuenta">Cuenta bancaria</label>
+          <select name="cuenta" id="gasto-cuenta">
+            <option value="">Sin cuenta (efectivo)</option>
+            <!-- Las opciones se cargarán dinámicamente con JavaScript -->
+          </select>
+        </div>
+
 
         <button type="submit" class="boton boton-primario">Agregar gasto</button>
       </form>

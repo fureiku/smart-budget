@@ -413,4 +413,8 @@ function refrescarPantalla() {
   renderizarPatrimonio();
   renderizarRegla();                //Actualiza regla 50/30/20
   renderizarCuentas();              //Actualiza cuentas
+  // Se actualizan selectores después de cambiar las cuentas
+  if (typeof cargarCuentasEnSelectores === 'function') {
+    cargarCuentasEnSelectores();
+  }
 }

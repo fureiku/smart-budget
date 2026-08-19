@@ -38,8 +38,7 @@ function cargarCuentas(){
 /* Guarda el array de cuentas en localStorage
 
 Clase 6 - Funciones
-Clase 8 - localStorage.setItem()
-Clase 7 - JSON.stringify() convierte objeto a string
+JSON.stringify() convierte objeto a string
  */
 function guardarCuentas(){
 
